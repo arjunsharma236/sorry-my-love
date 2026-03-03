@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>For Anshika ❤️</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+font-family:Arial,sans-serif;
+background:black;
+color:white;
+text-align:center;
+overflow:hidden;
+}
+
+/* Lock Screen */
+#lock{
+position:fixed;
+width:100%;
+height:100vh;
+background:linear-gradient(135deg,#ff4b7d,#ff758c);
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+}
+
+#lock input{
+padding:10px;
+border:none;
+border-radius:20px;
+margin-top:15px;
+text-align:center;
+}
+
+#lock button{
+margin-top:10px;
+padding:10px 20px;
+border:none;
+border-radius:20px;
+background:white;
+color:#ff4b7d;
+}
+
+/* Main */
+#main{
+display:none;
+padding:20px;
+background:linear-gradient(135deg,#ff758c,#ff7eb3);
+min-height:100vh;
+}
+
+.photos{
+display:flex;
+justify-content:center;
+gap:10px;
+flex-wrap:wrap;
+margin:15px 0;
+}
+
+.photos img{
+width:130px;
+height:130px;
+border-radius:20px;
+object-fit:cover;
+border:3px solid white;
+}
+
+button{
+padding:12px 25px;
+font-size:16px;
+border:none;
+border-radius:25px;
+margin:10px;
+cursor:pointer;
+}
+
+#yes{
+background:white;
+color:#ff4b7d;
+transition:0.3s;
+}
+
+#no{
+background:#ff4b7d;
+color:white;
+position:absolute;
+}
+
+canvas{
+position:fixed;
+top:0;
+left:0;
+pointer-events:none;
+}
+
+.heart{
+position:fixed;
+bottom:-10px;
+font-size:18px;
+animation:rise 5s linear infinite;
+}
+
+@keyframes rise{
+0%{transform:translateY(0);}
+100%{transform:translateY(-110vh);}
+}
+</style>
+</head>
+
+<body>
+
+<!-- PASSWORD LOCK -->
+<div id="lock">
+<h2>Only For Anshika ❤️</h2>
+<p>Enter Special Password 💕</p>
+<input type="password" id="pass" placeholder="Enter password">
+<button onclick="unlock()">Unlock 🔓</button>
+</div>
+
+<!-- MAIN CONTENT -->
+<div id="main">
+
+<h2 id="typewriter"></h2>
+
+<div class="photos">
+<img src="anshika1.jpg">
+<img src="anshika2.jpg">
+</div>
+
+<h3>Will You Forgive Me? 😂❤️</h3>
+
+<button id="yes" onclick="forgive()">Yes 😍</button>
+<button id="no" onmouseover="moveNo()">No 😏</button>
+
+<div id="msg"></div>
+
+<canvas id="fireworks"></canvas>
+
+</div>
+
+<script>
+const correctPassword="anshika123";
+
+/* Unlock */
+function unlock(){
+let entered=document.getElementById("pass").value;
+if(entered===correctPassword){
+document.getElementById("lock").style.display="none";
+document.getElementById("main").style.display="block";
+typeEffect();
+playRomanticTune();
+}else{
+alert("Wrong password 😜 Try again!");
+}
+}
+
+/* Typewriter */
+let text="Anshika 🥺 I'm Really Sorry... Main officially certified bewakoof hoon 🤦‍♂️ Please maaf kar do ❤️";
+let i=0;
+function typeEffect(){
+if(i<text.length){
+document.getElementById("typewriter").innerHTML+=text.charAt(i);
+i++;
+setTimeout(typeEffect,50);
+}
+}
+
+/* Funny No Button */
+let yesSize=16;
+function moveNo(){
+let noBtn=document.getElementById("no");
+noBtn.style.top=Math.random()*80+"%";
+noBtn.style.left=Math.random()*80+"%";
+
+yesSize+=2;
+document.getElementById("yes").style.fontSize=yesSize+"px";
+}
+
+/* Forgive */
+function forgive(){
+document.getElementById("msg").innerHTML=
+"Yayyyy 🎉❤️ Anshika is the best girlfriend everrrr 😍";
+blast();
+}
+
+/* Fireworks */
+const canvas=document.getElementById("fireworks");
+const ctx=canvas.getContext("2d");
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+
+function blast(){
+for(let i=0;i<60;i++){
+ctx.beginPath();
+ctx.arc(Math.random()*canvas.width,
+Math.random()*canvas.height/2,3,0,2*Math.PI);
+ctx.fillStyle="white";
+ctx.fill();
+}
+}
+
+/* Floating Hearts */
+setInterval(()=>{
+let heart=document.createElement("div");
+heart.classList.add("heart");
+heart.innerHTML="❤️";
+heart.style.left=Math.random()*100+"%";
+document.body.appendChild(heart);
+setTimeout(()=>{heart.remove();},5000);
+},600);
+
+/* Romantic Built-in Tune */
+let audioContext;
+let isPlaying=false;
+
+function playRomanticTune(){
+if(isPlaying) return;
+isPlaying=true;
+
+audioContext=new (window.AudioContext||window.webkitAudioContext)();
+
+function playNote(freq,time){
+const osc=audioContext.createOscillator();
+const gain=audioContext.createGain();
+
+osc.type="sine";
+osc.frequency.value=freq;
+
+gain.gain.setValueAtTime(0.2,audioContext.currentTime);
+gain.gain.exponentialRampToValueAtTime(
+0.001,audioContext.currentTime+time);
+
+osc.connect(gain);
+gain.connect(audioContext.destination);
+
+osc.start();
+osc.stop(audioContext.currentTime+time);
+}
+
+let melody=[262,330,392,330,440,392,330];
+let j=0;
+
+setInterval(()=>{
+playNote(melody[j%melody.length],0.6);
+j++;
+},700);
+}
+</script>
+
+</body>
+</html>
